@@ -1,0 +1,13 @@
+project_id            = "gke-project-1-500610"
+region                = "europe-west2"
+zone                  = "europe-west2-a"
+cluster_name          = "eshop-cluster"
+network_name          = "default"
+subnet_name           = "default"
+node_pool_name        = "eshop-node-pool"
+machine_type          = "e2-standard-2"
+disk_size_gb          = 30
+disk_type             = "pd-standard"
+node_count            = 2
+service_account_email = "322246214564-compute@developer.gserviceaccount.com"
+deletion_protection   = false
