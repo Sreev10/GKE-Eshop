@@ -1,0 +1,47 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: eshope-alerts
+  namespace: monitoring
+spec:
+  groups:
+  - name: eshope.rules
+    rules:
+    - alert: FrontendDown
+      expr: up{job="frontend"} == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Frontend service is down"
+        description: "The frontend service has been down for more than 1 minute."
+    - alert: BackendDown
+      expr: up{job="backend"} == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Backend service is down"
+        description: "The backend service has been down for more than 1 minute."    
+    - alert: HighBackendErrorRate
+      expr: rate(http_errors_total{job="backend"}[5m]) > 0.05
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High backend error rate"
+        description: "The backend service has a high error rate (>5%) over the last 5 minutes."
+    - alert: HighCPUUsage
+      expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High CPU usage on backend"
+    - alert: HighMemoryUsage
+      expr: container_memory_usage_bytes/container_spec_memory_limit_bytes > 0.8 
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High memory usage"

@@ -1,0 +1,26 @@
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: admin123
+  service:
+    type: LoadBalancer
+    
+  defaultDashboardsEnabled: true  
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+prometheus:
+  enabled: true
+  prometheusSpec:
+    serviceMonitorSelector: {}
+
+    serviceMonitorNamespaceSelector:
+     any: true
+alertmanager:
+  enabled: true    
+nodeExporter:
+  enabled: true
+kubeStateMetrics:
+  enabled: true  
