@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: tenant-a-ntework-policy
+  namespace: tenant-a
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+  #allows traffic from gateway namespace
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app: saasify
+   #allows backend to access Redis
+    - from:
+        - podSelector:
+           matchLabels:
+            app: backend
+      ports:
+        - protocol: TCP
+          port: 6379
+  egress:
+  # allow communication within the same namespace
+    - to: 
+      - podSelector: {}
+  # allow DNS lookups
+    - to: 
+      - namespaceSelector:
+         matchLabels:
+           kubernetes.io/metadata.name: kube-system
+      ports:   
+      - protocol: UDP
+        port: 53
+      - protocol: TCP
+        port: 53
+
+          
+             
+            

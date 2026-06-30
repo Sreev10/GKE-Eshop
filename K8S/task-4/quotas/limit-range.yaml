@@ -1,0 +1,52 @@
+# limit range quota file for tenant-a
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: tenant-limitrange
+  namespace: tenant-a
+spec:
+  limits:
+    - default:
+        cpu: "1"
+        memory: 2Gi
+      defaultRequest:
+         cpu: 200m
+         memory: 256Mi
+      type: Container
+
+---
+# limit range quota file for tenant-b
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: tenant-limitrange
+  namespace: tenant-b
+spec:
+  limits:
+    - default:
+        cpu: "1"
+        memory: 2Gi
+      defaultRequest:
+        cpu: 200m
+        memory: 256Mi
+      type: Container
+
+---
+# limit range quota file for tenant-c
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: tenant-limitrange
+  namespace: tenant-c
+spec:
+  limits:
+    - default:
+        cpu: "1"
+        memory: 2Gi
+      defaultRequest:
+        cpu: 200m
+        memory: 256Mi
+      type: Container  
+
