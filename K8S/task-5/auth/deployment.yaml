@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: auth-service
+  namespace: finbank-new
+  labels:
+    app: auth-service
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: auth-service
+
+  template:
+    metadata:
+      labels:
+        app: auth-service
+
+    spec:
+      containers:
+      - name: auth-service
+
+        image: finbank/auth:v1
+
+        imagePullPolicy: IfNotPresent
+
+        ports:
+        - containerPort: 8081
+
+        env:
+
+        - name: DB_HOST
+          value: postgres.finbank-legacy.svc.cluster.local
+
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_DB
+              optional: true
+
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+              optional: true
+
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+              optional: true
+
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 30
+          periodSeconds: 15

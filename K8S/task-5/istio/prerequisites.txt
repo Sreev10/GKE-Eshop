@@ -1,0 +1,31 @@
+need to install istio 
+
+#download it 
+curl -L https://istio.io/downloadIstio | sh
+
+#go inside the folder
+cd istio-*
+
+#add istioctl to the path
+export PATH=$PWD/bin:$PATH
+
+#install istio
+
+istioctl install --set profile=demo -y
+
+# verify it 
+kubectl get pods -n istio-system
+
+#enable sidecar injection
+
+kubectl label namespace finbank-legacy istio-injection=enabled --overwrite
+
+kubectl label namespace finbank-new istio-injection=enabled --overwrite
+
+# then now restart the deployments
+
+kubectl rollout restart deployment monolith -n finbank-legacy
+
+kubectl rollout restart deployment auth-service -n finbank-new
+
+kubectl rollout restart deployment nginx-gateway -n finbank-new

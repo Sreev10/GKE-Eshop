@@ -1,0 +1,75 @@
+legacy-ns.yaml
+
+Creates the finbank-legacy namespace. It isolates all legacy monolith resources from other workloads.
+
+new-ns.yaml
+
+Creates the finbank-new namespace. It hosts the new microservices during the migration.
+
+secret.yaml
+
+Stores PostgreSQL credentials securely instead of hardcoding them in Deployments. Containers read these values as environment variables.
+
+statefulset.yaml
+
+Deploys PostgreSQL as a StatefulSet to provide stable storage and persistent identity. Used because databases need persistent data.
+
+service.yaml (PostgreSQL)
+
+Exposes PostgreSQL inside the cluster. Other applications connect to it using the service name instead of a Pod IP.
+
+deployment.yaml (Monolith)
+
+Deploys the legacy banking application (finbank/monolith:v1). It represents the existing application before migration.
+
+service.yaml (Monolith)
+
+Exposes the monolith internally using a ClusterIP Service. The API Gateway routes requests to this service.
+
+deployment.yaml (Auth Service)
+
+Deploys the new authentication microservice. This service gradually replaces the authentication functionality of the monolith.
+
+service.yaml (Auth Service)
+
+Exposes the Auth Service inside the cluster. Istio and the API Gateway send authentication requests to this service.
+
+configmap.yaml (NGINX)
+
+Stores the NGINX configuration separately from the container image. It defines how requests are routed.
+
+deployment.yaml (NGINX Gateway)
+
+Deploys the NGINX API Gateway. It acts as the entry point and forwards requests to the correct backend.
+
+service.yaml (NGINX Gateway)
+
+Exposes the API Gateway externally using a NodePort. Users access the application through this service.
+
+migration-job.yaml
+
+Runs a one-time Kubernetes Job to simulate migrating data from H2 to PostgreSQL. It executes once and then exits.
+
+gateway.yaml (Istio)
+
+Creates an Istio Gateway that receives external HTTP traffic. It works similarly to an Ingress but is managed by Istio.
+
+destinationrule.yaml (Istio)
+
+Defines traffic policies for a service, such as load balancing and subsets. It tells Istio how to communicate with the destination service.
+
+virtualservice.yaml (Istio)
+
+Controls request routing. In this project, it sends 90% of authentication traffic to the monolith and 10% to the new Auth Service.
+
+peerauthentication.yaml
+
+Configures how services authenticate with each other in the mesh. Here it allows communication using PERMISSIVE mTLS mode.
+
+circuit-breaker.yaml
+
+Configures circuit breaking to stop sending traffic to unhealthy service instances. This prevents repeated failures from affecting the application.
+
+retry-policy.yaml
+
+Configures automatic retries for temporary failures. Istio retries failed requests before returning an error to the client.

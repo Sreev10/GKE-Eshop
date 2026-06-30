@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+
+metadata:
+  name: auth-destination
+  namespace: finbank-new
+
+spec:
+  host: auth-service.finbank-new.svc.cluster.local
+
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+
+  subsets:
+
+  - name: v1
+
+    labels:
+      app: auth-service
+
+  - name: legacy
+
+    labels:
+      app: monolith

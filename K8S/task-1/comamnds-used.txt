@@ -1,0 +1,33 @@
+Task 1 Commands
+
+Namespace
+
+kubectl create namespace eshope kubectl apply -f k8s/01-namespace/
+kubectl get ns
+
+Database
+
+kubectl apply -f k8s/02-database/ kubectl get pvc -n eshope kubectl get
+deployment -n eshope kubectl get svc -n eshope kubectl get secret -n
+eshope
+
+Backend
+
+kubectl apply -f k8s/03-backend/ kubectl get deployment -n eshope
+kubectl get pods -n eshope kubectl get svc -n eshope
+
+Frontend
+
+kubectl apply -f k8s/04-frontend/ kubectl get deployment -n eshope
+kubectl get svc -n eshope
+
+Verify
+
+kubectl get all -n eshope kubectl describe pod -n eshope kubectl logs -n
+eshope
+
+Stretch Goals
+
+kubectl apply -f k8s/configmap/ kubectl apply -f k8s/probes/ kubectl
+rollout restart deployment frontend -n eshope kubectl rollout restart
+deployment backend -n eshope

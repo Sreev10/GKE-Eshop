@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+
+metadata:
+  name: auth-retry-policy
+  namespace: finbank-new
+
+spec:
+
+  hosts:
+  - auth-service.finbank-new.svc.cluster.local
+
+  http:
+
+  - retries:
+
+      attempts: 3
+
+      perTryTimeout: 2s
+
+      retryOn: gateway-error,connect-failure,refused-stream,5xx
+
+    route:
+
+    - destination:
+
+        host: auth-service.finbank-new.svc.cluster.local
+
+        port:
+          number: 8081
