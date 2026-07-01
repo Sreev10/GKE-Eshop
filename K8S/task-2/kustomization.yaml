@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - v2-backend-deployment.yaml
-  - HPA-Back-deployment.yaml
+  - HPA-backend-deployment.yaml
   - v2-frontend-deployment.yaml
-  - HPA-Front-deployment.yaml
+  - HPA-frontend-deployment.yaml
