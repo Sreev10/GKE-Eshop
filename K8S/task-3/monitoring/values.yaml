@@ -16,8 +16,8 @@ prometheus:
   prometheusSpec:
     serviceMonitorSelector: {}
 
-    serviceMonitorNamespaceSelector:
-     any: true
+    serviceMonitorNamespaceSelector: {}
+     
 alertmanager:
   enabled: true    
 nodeExporter:

@@ -16,7 +16,7 @@ kubectl top pods -A
 
 HPA-back-deplyment.yaml
 
-kubectl apply -f "HPA-back-deplyment.yaml"
+kubectl apply -f "HPA-backend-deplyment.yaml"
 kubectl get all -n eshope
 kubectl describe pod <pod-name> -n eshope
 kubectl logs <pod-name> -n eshope
@@ -28,7 +28,7 @@ kubectl top pods -n eshope
 
 HPA-Front-deplyment.yaml
 
-kubectl apply -f "HPA-Front-deplyment.yaml"
+kubectl apply -f "HPA-frontend-deplyment.yaml"
 kubectl get all -n eshope
 kubectl describe pod <pod-name> -n eshope
 kubectl logs <pod-name> -n eshope
@@ -38,9 +38,9 @@ kubectl top pods -n eshope
 
 
 ------------------------------------
-v2-backend-deploymet.yaml
+v2-backend-deployment.yaml
 
-kubectl apply -f "v2-backend-deploymet.yaml"
+kubectl apply -f "v2-backend-deployment.yaml"
 kubectl get all -n eshope
 kubectl describe pod <pod-name> -n eshope
 kubectl logs <pod-name> -n eshope
